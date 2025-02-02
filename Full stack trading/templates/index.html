@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+    <style>
+        .stock-table {
+            margin-top: 2em;
+        }
+        .footer {
+            margin-top: 3em;
+            padding: 2em 0;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="ui container">
+        <!-- Header Section -->
+        <div class="ui basic segment">
+            <h1 class="ui header">
+                Stock Market Dashboard
+                <div class="sub header">Track and analyze your favorite stocks</div>
+            </h1>
+        </div>
+
+        <!-- Filter Form -->
+        <form method="get" class="ui form">
+            <div class="field">
+                <label for="filter">Filter Stocks</label>
+                <select name="filter" id="filter" class="ui dropdown">
+                    <option value="">All Stocks</option>
+                    <option value="new_closing_highs" {% if stock_filter == 'new_closing_highs' %}selected{% endif %}>New Closing Highs</option>
+                    <option value="new_closing_highs" {% if stock_filter == 'new_closing_lows' %}selected{% endif %}>New Closing lows</option>
+                </select>
+            </div>
+            <button type="submit" class="ui button primary">Apply Filter</button>
+        </form>
+
+        <!-- Stocks Table -->
+        <div class="stock-table">
+            <table class="ui selectable striped table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Name</th>
+                        <th>Exchange</th>
+                        <th>Close</th>
+                        <th>Date</th>
+                        <th class="right aligned">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in stocks %}
+                    <tr>
+                        <td><strong>{{ stock.symbol }}</strong></td>
+                        <td>{{ stock.name }}</td>
+                        <td>{{ stock.exchange }}</td>
+                        <td>{{ stock.close }}</td>
+                        <td>{{ stock.date }}</td>
+                        <td class="right aligned">
+                            <a href="/stock/{{ stock.symbol }}" class="ui primary button">View Details</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="ui center aligned container">
+                <p>&copy; {{ year }} Stock Market Dashboard. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
+</body>
+</html>
